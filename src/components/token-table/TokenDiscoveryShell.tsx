@@ -16,27 +16,16 @@ export default function TokenDiscoveryShell() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["tokens"],
-    queryFn: () => fetch("/api/tokens").then((res) => res.json()),
-    refetchInterval:
-      typeof window !== "undefined" &&
-      window.location.search.includes("lighthouse")
-        ? false
-        : 15000,
+    queryFn: () => fetch("/api/tokens").then((r) => r.json()),
+    refetchInterval: 15000,
     refetchOnWindowFocus: false,
   });
 
-  console.log("API RESPONSE:", data);
+  const skeletonCount = 25; // show first 25 rows as skeleton
 
-  // Ensure correct backend structure:
   const grouped = useMemo(() => {
     if (!data) return { newPairs: [], finalStretch: [], migrated: [] };
-
-    // The BE already groups them, so just pass them through
-    return {
-      newPairs: data.newPairs ?? [],
-      finalStretch: data.finalStretch ?? [],
-      migrated: data.migrated ?? [],
-    };
+    return data;
   }, [data]);
 
   const rows = grouped[category] ?? [];
@@ -50,13 +39,12 @@ export default function TokenDiscoveryShell() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => scrollRef.current!,
+    count: isLoading ? skeletonCount : rows.length,
+    getScrollElement: () => scrollRef.current ?? undefined,
     estimateSize: () => 60,
     overscan: 5,
   });
 
-  if (isLoading) return <LoadingSkeleton />;
   if (error)
     return <div className="text-red-400 p-6">Failed to load tokens</div>;
 
@@ -82,9 +70,10 @@ export default function TokenDiscoveryShell() {
         >
           {rowVirtualizer.getVirtualItems().map((virtual) => {
             const row = rows[virtual.index];
+
             return (
               <div
-                key={row.id}
+                key={virtual.key}
                 style={{
                   position: "absolute",
                   top: 0,
@@ -93,11 +82,15 @@ export default function TokenDiscoveryShell() {
                   transform: `translateY(${virtual.start}px)`,
                 }}
               >
-                <TokenRowItem
-                  index={virtual.index + 1}
-                  row={row}
-                  category={category}
-                />
+                {isLoading ? (
+                  <LoadingSkeleton />
+                ) : (
+                  <TokenRowItem
+                    index={virtual.index + 1}
+                    row={row}
+                    category={category}
+                  />
+                )}
               </div>
             );
           })}
