@@ -19,8 +19,8 @@ const defaultSort: SortState = {
 
 const initialState: TokensState = {
   sort: {
-    new_pairs: { ...defaultSort },
-    final_stretch: { ...defaultSort },
+    newPairs: { ...defaultSort },
+    finalStretch: { ...defaultSort },
     migrated: { ...defaultSort },
   },
 };

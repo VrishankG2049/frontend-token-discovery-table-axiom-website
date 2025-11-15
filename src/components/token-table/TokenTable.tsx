@@ -17,8 +17,8 @@ interface GroupedData {
 
 export function TokenDiscoveryShell() {
   const [category, setCategory] = useState<
-    "new_pairs" | "final_stretch" | "migrated"
-  >("new_pairs");
+    "newPairs" | "finalStretch" | "migrated"
+  >("newPairs");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["tokens"],
@@ -27,10 +27,10 @@ export function TokenDiscoveryShell() {
   });
 
   const groupData: GroupedData = useMemo(() => {
-    if (!data) return { new_pairs: [], final_stretch: [], migrated: [] };
+    if (!data) return { newPairs: [], finalStretch: [], migrated: [] };
     return {
-      new_pairs: data.newPairs ?? [],
-      final_stretch: data.finalStretch ?? [],
+      newPairs: data.newPairs ?? [],
+      finalStretch: data.finalStretch ?? [],
       migrated: data.migrated ?? [],
     };
   }, [data]);

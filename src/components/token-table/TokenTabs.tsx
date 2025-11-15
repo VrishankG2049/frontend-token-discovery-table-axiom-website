@@ -3,14 +3,14 @@
 import { cn } from "@/lib/utils";
 
 interface TokenTabsProps {
-  category: "new_pairs" | "final_stretch" | "migrated";
-  setCategory: (c: "new_pairs" | "final_stretch" | "migrated") => void;
+  category: "newPairs" | "finalStretch" | "migrated";
+  setCategory: (c: "newPairs" | "finalStretch" | "migrated") => void;
 }
 
 export function TokenTabs({ category, setCategory }: TokenTabsProps) {
   const tabs = [
-    { id: "new_pairs", label: "New Pairs" },
-    { id: "final_stretch", label: "Final Stretch" },
+    { id: "newPairs", label: "New Pairs" },
+    { id: "finalStretch", label: "Final Stretch" },
     { id: "migrated", label: "Migrated" },
   ] as const;
 

@@ -28,9 +28,9 @@ interface Props {
 
 function TokenRowItemBase({ index, row, category }: Props) {
   const categoryLabel =
-    category === "new_pairs"
+    category === "newPairs"
       ? "New"
-      : category === "final_stretch"
+      : category === "finalStretch"
       ? "Final"
       : "Migrated";
 

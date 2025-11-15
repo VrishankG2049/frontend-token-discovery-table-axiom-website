@@ -5,30 +5,37 @@ import { useQuery } from "@tanstack/react-query";
 import { TokenRowItem } from "./TokenRow";
 import { TokenTabs } from "./TokenTabs";
 import { LoadingSkeleton } from "./LoadingSkeleton";
-import type { TokenRow as TRow } from "@/lib/types";
+import type { TokenRow as TRow, TokenCategory } from "@/lib/types";
 import { socket } from "@/lib/socket";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
-export default function TokenDiscoveryShell() {
-  const [category, setCategory] = useState<
-    "newPairs" | "finalStretch" | "migrated"
-  >("newPairs");
+interface GroupedData {
+  newPairs: TRow[];
+  finalStretch: TRow[];
+  migrated: TRow[];
+}
 
-  const { data, isLoading, error } = useQuery({
+export default function TokenDiscoveryShell() {
+  const [category, setCategory] = useState<TokenCategory>("newPairs");
+
+  const { data, isLoading, error } = useQuery<GroupedData>({
     queryKey: ["tokens"],
     queryFn: () => fetch("/api/tokens").then((r) => r.json()),
     refetchInterval: 15000,
     refetchOnWindowFocus: false,
   });
 
-  const skeletonCount = 25; // show first 25 rows as skeleton
+  console.log("API RESPONSE:", data);
 
-  const grouped = useMemo(() => {
-    if (!data) return { newPairs: [], finalStretch: [], migrated: [] };
-    return data;
+  const grouped: GroupedData = useMemo(() => {
+    return {
+      newPairs: data?.newPairs ?? [],
+      finalStretch: data?.finalStretch ?? [],
+      migrated: data?.migrated ?? [],
+    };
   }, [data]);
 
-  const rows = grouped[category] ?? [];
+  const rows = grouped[category];
 
   const isPerfAudit =
     typeof window !== "undefined" &&
@@ -38,15 +45,18 @@ export default function TokenDiscoveryShell() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const skeletonCount = 25;
+
   const rowVirtualizer = useVirtualizer({
     count: isLoading ? skeletonCount : rows.length,
-    getScrollElement: () => scrollRef.current ?? undefined,
+    getScrollElement: () => scrollRef.current,
     estimateSize: () => 60,
     overscan: 5,
   });
 
-  if (error)
+  if (error) {
     return <div className="text-red-400 p-6">Failed to load tokens</div>;
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto">

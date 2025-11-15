@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import type { TokenRow } from "@/lib/types";
+import type { TokenRow, TokenCategory } from "@/lib/types";
 
-const CATEGORIES: TokenRow["category"][] = [
-  "newPairs",
-  "finalStretch",
-  "migrated",
-];
+const CATEGORIES: TokenCategory[] = ["newPairs", "finalStretch", "migrated"];
 
 function makeToken(i: number): TokenRow {
   const category = CATEGORIES[i % CATEGORIES.length];
@@ -14,14 +10,24 @@ function makeToken(i: number): TokenRow {
     id: `token-${i}`,
     name: `Example Token ${i}`,
     symbol: `TKN${i}`,
+
     ageMinutes: Math.floor(Math.random() * 90),
+
     price: 0.1 + Math.random() * 0.3,
     priceChange1m: (Math.random() - 0.5) * 8,
     priceChange5m: (Math.random() - 0.5) * 12,
+
     marketCap: 300_000 + Math.random() * 200_000,
     volume24h: 120_000 + Math.random() * 100_000,
     liquidity: 150_000 + Math.random() * 100_000,
     txCount: Math.floor(Math.random() * 300),
+
+    // 👇 Added required fields
+    buyers: Math.floor(Math.random() * 100),
+    sellers: Math.floor(Math.random() * 80),
+    devHoldingPct: Math.random() * 20,
+    snipersPct: Math.random() * 30,
+
     category,
   };
 }
