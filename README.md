@@ -4,7 +4,7 @@ A responsive, real-time token discovery dashboard inspired by Axiom’s token ex
 Built with modern React + Next.js features and optimized virtualization for smooth scrolling performance.
 
 *Live Deployment (Vercel):*
-https://token-discovery-table-axiom-website-issi258rq.vercel.app/
+https://token-discovery-table-axiom-website-issi258rq.vercel.app/pulse
 
 
 
