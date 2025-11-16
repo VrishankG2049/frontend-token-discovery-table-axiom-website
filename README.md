@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ Token Discovery Dashboard — Axiom 
 
-## Getting Started
+A responsive, real-time token discovery dashboard inspired by Axiom’s token explorer UI.  
+Built with modern React + Next.js features and optimized virtualization for smooth scrolling performance.
 
-First, run the development server:
+*Live Deployment (Vercel):*
+https://token-discovery-table-axiom-website-issi258rq.vercel.app/
+
+
+
+ Features
+
+- Real-time token updates with mock API backend
+- Virtualized list for high-performance rendering of 60+ tokens
+- Filtering by token lifecycle categories:
+  - New Pairs
+  - Final Stretch
+  - Migrated
+- Responsive UI optimized for all screen sizes 
+- Clean dark theme inspired by Axiom UX
+- Smooth hover + interactive Quick Buy modal
+
+
+
+## Desktop Preview
+
+> Responsive layout — large screens
+
+![Desktop UI](screenshots/desktop.png)
+
+---
+
+## Mobile Preview (320px width)
+
+> Complete mobile layout support
+
+![Mobile UI](screenshots/mobile.png)
+
+
+
+## Tech Stack
+
+ Tools Used 
+
+Frontend Framework -> Next.js 16 (App Router) 
+Query Caching -> React Query (TanStack Query) 
+Virtual Scrolling -> TanStack React-Virtual 
+UI Components -> TailwindCSS + Shadcn UI 
+Mock Backend -> Next.js API Route 
+Deployment -> Vercel 
+
+
+
+# Local Setup
 
 ```bash
+# Install dependencies
+npm install
+
+# Start local development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Build for production
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run production preview
+npm start
